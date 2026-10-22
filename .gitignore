@@ -47,6 +47,9 @@ backend/cp.txt
 backend/run.err
 sql/out/
 
+# 内部实施方案仅本地保留，不进公开仓库
+*实施方案*.md
+
 # python
 __pycache__/
 *.pyc
