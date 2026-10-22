@@ -688,3 +688,11 @@ mvn test
    - `python scripts/audit_api_alignment.py` 必须通过
    - `backend mvn test` 必须通过（含 PermContractTest）
 
+---
+
+## 许可证
+
+[MIT](LICENSE) © 2026 chenchiren
+
+可自由使用、修改、分发与商用，保留版权声明即可。生产部署前请务必替换演示账号口令与数据库凭据。
+
