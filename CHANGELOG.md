@@ -31,7 +31,7 @@
   - `docker-compose.yml` 拆分为 `${WUZI_DB_ROOT_PASSWORD}`（仅容器初始化）与 `${WUZI_DB_USER}` / `${WUZI_DB_PASSWORD}`（业务连接），三者均必填，缺失直接启动失败；
   - 本地真实凭据存放在仓库外的 `%USERPROFILE%\.wuzi\env`，项目目录内不留任何口令文件；
   - `scripts/check_arch.py` 的敏感词探测改为环境变量注入（`WUZI_LEAK_PROBES`），不再内置真实口令。
-- `.gitignore` 补充 `start-backend.local.cmd`、`sql/.env.local`、`.workbuddy/`、`sql/out/` 等本地文件。
+- `.gitignore` 补充 `start-backend.local.cmd`、`sql/.env.local`、`.workbuddy/`、`sql/out/` 等本地文件；仓库目录内不再保留任何凭据文件，本机真实值放在仓库外的 `%USERPROFILE%\.wuzi\env`。
 
 ### 工程
 

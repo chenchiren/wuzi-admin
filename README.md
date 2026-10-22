@@ -48,7 +48,8 @@
 ### 1. 数据库初始化
 
 ```powershell
-# 口令不写进仓库：先设置环境变量（或写入 sql/.env.local，已 gitignore）
+# 账号口令不写进仓库：设置环境变量，或写入 %USERPROFILE%\.wuzi\env（仓库外）
+$env:WUZI_DB_USER     = 'wuzi_app'
 $env:WUZI_DB_PASSWORD = '你的数据库口令'
 
 # 统一初始化（结构 + 基础种子 + 全部 27 个补丁效果，一个文件；编码必须 UTF-8，见 1.1 编码规范）
