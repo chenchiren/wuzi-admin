@@ -1,0 +1,151 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: wuzi-admin
+  datasource:
+    # tcpKeepAlive：TCP 层保活，降低 NAT/防火墙静默掐连接
+    # connectTimeout/socketTimeout：快速失败，避免无限挂起
+    url: ${WUZI_DB_URL:jdbc:mysql://localhost:3306/wuzi_test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false&tcpKeepAlive=true&connectTimeout=10000&socketTimeout=60000}
+    username: ${WUZI_DB_USER:}
+    password: ${WUZI_DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: ${WUZI_DB_POOL_SIZE:20}
+      minimum-idle: ${WUZI_DB_MIN_IDLE:5}
+      connection-timeout: 10000
+      # 连接最长存活须 < MySQL wait_timeout（默认 28800s），避免被服务端掐死后仍被复用
+      max-lifetime: ${WUZI_DB_MAX_LIFETIME:1700000}
+      # 空闲连接保活探测（须 < max-lifetime，且 > 30s）
+      keepalive-time: ${WUZI_DB_KEEPALIVE:300000}
+      idle-timeout: 600000
+      # 借出前校验连接有效（JDBC4 isValid）
+      validation-timeout: 3000
+      # 兼容非 JDBC4 驱动时的探活 SQL；MySQL 8 驱动可留空走 isValid
+      connection-test-query: ${WUZI_DB_TEST_QUERY:SELECT 1}
+      pool-name: wuzi-hikari
+      register-mbeans: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    # 关闭 StdOut 全量 SQL 打印：会显著拖慢每个请求（肉眼可见卡顿）
+    # 调试时可临时改为: log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDeleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  type-aliases-package: com.relex.wuzi.domain
+
+wuzi:
+  jwt:
+    # 必须由环境变量注入；生产禁止使用默认密钥（见 SecretConfigValidator）
+    secret: ${WUZI_JWT_SECRET:}
+    expire-hours: ${WUZI_JWT_EXPIRE_HOURS:24}
+  cors:
+    # 生产必须显式配置可信源；默认空表示同源/由网关控制，禁止裸 *
+    allowed-origins: ${WUZI_CORS_ORIGINS:}
+  wecom:
+    mock: ${WUZI_WECOM_MOCK:false}
+    corp-id: ${WUZI_WECOM_CORP_ID:}
+    agent-id: ${WUZI_WECOM_AGENT_ID:}
+    secret: ${WUZI_WECOM_SECRET:}
+  dingtalk:
+    mock: ${WUZI_DINGTALK_MOCK:false}
+    app-key: ${WUZI_DINGTALK_APP_KEY:}
+    app-secret: ${WUZI_DINGTALK_APP_SECRET:}
+    agent-id: ${WUZI_DINGTALK_AGENT_ID:}
+  attachment:
+    max-size-mb: ${WUZI_ATTACH_MAX_MB:20}
+    allow-ext: ${WUZI_ATTACH_ALLOW_EXT:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,csv,zip}
+    dir: ${WUZI_ATTACH_DIR:${user.dir}/data/attachments}
+  storage:
+    # local（默认）| minio；minio 未装依赖时自动降级 local 并日志提示
+    type: ${WUZI_STORAGE_TYPE:local}
+    minio:
+      endpoint: ${WUZI_MINIO_ENDPOINT:}
+      access-key: ${WUZI_MINIO_ACCESS_KEY:}
+      secret-key: ${WUZI_MINIO_SECRET_KEY:}
+      bucket: ${WUZI_MINIO_BUCKET:wuzi}
+  auth:
+    login:
+      # 窗口内最大失败次数 / 统计窗口（分钟）/ 锁定时长（分钟）
+      max-failures: ${WUZI_LOGIN_MAX_FAILURES:10}
+      window-minutes: ${WUZI_LOGIN_WINDOW_MINUTES:5}
+      lock-minutes: ${WUZI_LOGIN_LOCK_MINUTES:5}
+  mail:
+    enabled: ${WUZI_MAIL_ENABLED:false}
+    host: ${WUZI_MAIL_HOST:}
+    port: ${WUZI_MAIL_PORT:25}
+    username: ${WUZI_MAIL_USERNAME:}
+    password: ${WUZI_MAIL_PASSWORD:}
+    from: ${WUZI_MAIL_FROM:noreply@local}
+    mock: ${WUZI_MAIL_MOCK:true}
+  sms:
+    enabled: ${WUZI_SMS_ENABLED:false}
+    # provider: noop（默认日志）| http（通用网关桩）| aliyun（阿里云桩）
+    provider: ${WUZI_SMS_PROVIDER:noop}
+    api-url: ${WUZI_SMS_API_URL:}
+    access-key: ${WUZI_SMS_ACCESS_KEY:}
+    secret-key: ${WUZI_SMS_SECRET_KEY:}
+    sign-name: ${WUZI_SMS_SIGN_NAME:}
+    template-code: ${WUZI_SMS_TEMPLATE_CODE:}
+  notify:
+    wecom-enabled: ${WUZI_NOTIFY_WECOM:false}
+    dingtalk-enabled: ${WUZI_NOTIFY_DINGTALK:false}
+    email-enabled: ${WUZI_NOTIFY_EMAIL:false}
+    sms-enabled: ${WUZI_NOTIFY_SMS:false}
+  ai:
+    enabled: ${WUZI_AI_ENABLED:true}
+    base-url: ${WUZI_AI_BASE_URL:http://10.0.33.1:31511/v1}
+    model: ${WUZI_AI_MODEL:qwen3.5-27b}
+    api-key: ${WUZI_AI_API_KEY:}
+    timeout-seconds: ${WUZI_AI_TIMEOUT:60}
+    max-tokens: ${WUZI_AI_MAX_TOKENS:2048}
+    history-rounds: ${WUZI_AI_HISTORY_ROUNDS:8}
+    rate-limit-per-minute: ${WUZI_AI_RPM:10}
+    tool-max-rounds: ${WUZI_AI_TOOL_ROUNDS:4}
+    embedding:
+      enabled: ${WUZI_AI_EMBED_ENABLED:true}
+      base-url: ${WUZI_AI_EMBED_URL:http://127.0.0.1:11434/v1}
+      model: ${WUZI_AI_EMBED_MODEL:bge-m3}
+      threshold: ${WUZI_AI_EMBED_THRESHOLD:0.60}
+      top-k: ${WUZI_AI_EMBED_TOPK:5}
+      reload-ms: ${WUZI_AI_EMBED_RELOAD_MS:1800000}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
+  metrics:
+    tags:
+      application: wuzi-admin
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{requestId}] %logger{36} - %msg%n"
+  level:
+    com.relex.wuzi: info
+    # 默认不刷 SQL 明细；仅 WARN 及以上
+    org.mybatis: warn
+    com.baomidou.mybatisplus: warn
+    com.zaxxer.hikari: warn
+    # 连接池过小会导致排队等待
+    com.zaxxer.hikari.pool.HikariPool: info

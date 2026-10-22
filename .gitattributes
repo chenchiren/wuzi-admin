@@ -1,0 +1,31 @@
+# 统一换行：仓库内保存规范形式，检出时按类型还原
+* text=auto
+
+# SQL / 脚本 / 源码：LF（MySQL 客户端与容器导入对 CRLF 敏感）
+*.sql   text eol=lf
+*.sh    text eol=lf
+*.java  text eol=lf
+*.xml   text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.py    text eol=lf
+
+# Windows 批处理：必须 CRLF（cmd.exe 解析 LF 会出诡异错误）
+*.cmd   text eol=crlf
+*.bat   text eol=crlf
+*.ps1   text eol=crlf
+
+# 二进制
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.jar   binary
+*.apk   binary
+*.gguf  binary
+*.xlsx  binary
+*.docx  binary
+*.pdf   binary

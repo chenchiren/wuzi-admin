@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">物资管理</string>
+    <string name="title_activity_main">物资管理</string>
+    <string name="package_name">com.relex.wuzi</string>
+    <string name="custom_url_scheme">com.relex.wuzi</string>
+</resources>

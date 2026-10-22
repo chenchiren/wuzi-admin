@@ -1,0 +1,4 @@
+@echo off
+REM Copy this file to start-backend.local.cmd (gitignored) and fill in real values.
+set "WUZI_DB_PASSWORD=change-me"
+set "WUZI_JWT_SECRET=please-change-this-to-a-long-random-secret-at-least-32-chars"

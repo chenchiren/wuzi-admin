@@ -1,0 +1,12 @@
+﻿{
+  "appId": "com.relex.wuzi",
+  "appName": "物资管理",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

@@ -1,0 +1,53 @@
+# build
+target/
+dist/
+node_modules/
+.vite/
+*.class
+*.jar
+!**/maven-wrapper.jar
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+# local env & secrets（本地口令文件绝不入库）
+.env
+.env.local
+*.local
+application-local.yml
+application-prod.yml
+start-backend.local.cmd
+!start-backend.local.cmd.example
+.workbuddy/
+
+# logs & runtime
+*.log
+_serve.out
+_serve.err
+logs/
+data/attachments/
+output/
+
+# test/automation scratch (do not ship)
+_e2e_*.js
+_test_*.js
+ui-test.js
+_serve.cjs
+.playwright-cli/
+*.apk
+android-app/**/build/
+*.apk.aab
+_diag.txt
+_ui_*.txt
+backend/cp.txt
+backend/run.err
+sql/out/
+
+# python
+__pycache__/
+*.pyc
+.venv/
