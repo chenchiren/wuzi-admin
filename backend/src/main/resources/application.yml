@@ -102,7 +102,7 @@ wuzi:
     sms-enabled: ${WUZI_NOTIFY_SMS:false}
   ai:
     enabled: ${WUZI_AI_ENABLED:true}
-    base-url: ${WUZI_AI_BASE_URL:http://10.0.33.1:31511/v1}
+    base-url: ${WUZI_AI_BASE_URL:http://localhost:8000/v1}
     model: ${WUZI_AI_MODEL:qwen3.5-27b}
     api-key: ${WUZI_AI_API_KEY:}
     timeout-seconds: ${WUZI_AI_TIMEOUT:60}

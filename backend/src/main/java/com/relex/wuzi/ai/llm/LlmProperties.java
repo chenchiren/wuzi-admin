@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class LlmProperties {
     /** 总开关；false 时 /api/ai/** 关闭 */
     private boolean enabled = true;
-    /** OpenAI 兼容端点，如 http://10.0.33.1:31511/v1 */
+    /** OpenAI 兼容端点，如 http://<LLM_HOST>:31511/v1 */
     private String baseUrl;
     private String model;
     /** 本地 vLLM 留空；云 provider 才需要 */
